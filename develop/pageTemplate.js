@@ -1,5 +1,4 @@
-const { default: test } = require("node:test")
-const { userInfo } = require("os")
+const toc = ["## Table of Contents", ""]
 
 const generateLicense = license => {
     return `![Licence](https://img.shields.io/badge/Licence-${license}-lightblue?style=for-the-badge&logo=GitHub)`
@@ -7,26 +6,30 @@ const generateLicense = license => {
 
 const generateInstall = installation => {
     if(installation){
+
+        toc.push("* [Installation](#installation)")
         return `
-        ## Installation
+## Installation
         
-        ${installation}
+${installation}
         
-        ---`
+---`
     }
     else{
+
         return ""
     }
 }
 
 const generateUsage = usage => {
     if(usage){
+        toc.push("* [Usage](#usage)")
         return `
-        ## Usage
+## Usage
         
-        ${usage}
+${usage}
         
-        ---`
+---`
     }
     else{
         return ""
@@ -35,12 +38,13 @@ const generateUsage = usage => {
 
 const generateContribution = contribute => {
     if(contribute){
+        toc.push("* [Contribution](#contribution)")
         return `
-        ## Contribution
+## Contribution
         
-        ${contribute}
+${contribute}
         
-        ---`
+---`
     }
     else{
         return ""
@@ -49,12 +53,13 @@ const generateContribution = contribute => {
 
 const generateTest = test => {
     if(test){
+        toc.push("* [Tests](#tests)")
         return `
-        ## Tests
+## Tests
         
-        ${test}
+${test}
         
-        ---`
+---`
     }
     else{
         return ""
@@ -63,36 +68,44 @@ const generateTest = test => {
 
 const generateQuestion = userInfo => {
     if(userInfo.question === "Both"){
+        toc.push("* [Contact](#contact)")
         return `
-        ## Contact Me
+## Contact
         
-        If you have any questions you contact me by...
+If you have any questions you contact me by...
         
-        1. Email me at ${userInfo.email}
-        1. Go to my GitHub [account](https://github.com/${userInfo.username})
+1. Email me at ${userInfo.email}
+1. Go to my GitHub [account](https://github.com/${userInfo.username})
         
-        ---`
+---`
     }
     else if(userInfo.question === "Email") {
+        toc.push("* [Contact](#contact)")
         return `
-        ## Contact Me
+## Contact Me
         
-        If you have any questions you can email me at ${userInfo.email}
+If you have any questions you can email me at ${userInfo.email}
         
-        ---`
+---`
     }
     else if(userInfo.question === "GitHub Profile") {
+        toc.push("* [Contact](#contact)")
         return `
-        ## Contact Me
+## Contact Me
         
-        If you have any questions you can talk to me me at [account](https://github.com/${userInfo.username})
+If you have any questions you can talk to me me at [account](https://github.com/${userInfo.username})
         
-        ---`
+---`
 
     }
     else {
         return ""
     }
+}
+
+const generateTOC = () => {
+    
+    return toc.join("\n")
 }
 
 module.exports = pageTemplate => {
@@ -103,21 +116,30 @@ module.exports = pageTemplate => {
         username, email, question
     }
 
-    return `
-    # ${projectTitle}
+    generateInstall(installation)
+    generateUsage(usage)
+    generateContribution(contribute)
+    generateTest(test)
+    generateQuestion(userInfo)
 
-    ${generateLicense(license)}
+    return `# ${projectTitle}
+
+${generateLicense(license)}
     
-    ## Description
+## Description
     
-    ${description}
+${description}
     
-    ---
+---
+
+${generateTOC()}
+
+---
     
-    ${generateInstall(installation)}
-    ${generateUsage(usage)}
-    ${generateContribution(contribute)}
-    ${generateTest(test)}
-    ${generateQuestion(userInfo)}`
+${generateInstall(installation)}
+${generateUsage(usage)}
+${generateContribution(contribute)}
+${generateTest(test)}
+${generateQuestion(userInfo)}`
      
 }
