@@ -128,7 +128,7 @@ projectQuestions()
         console.log(questionData)
         const template = pageTemplate(questionData)
         //after the data is returened a new file will be created in a new folder
-        fs.writeFile("./dist/README.md", template, err => {
+        fs.writeFile("./dist/sample-readme.md", template, err => {
             if (err) throw err
         })
         
