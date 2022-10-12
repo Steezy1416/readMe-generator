@@ -1,6 +1,7 @@
 const inquirer = require("inquirer")
-const pageTemplate = require("./develop/pageTemplate")
 const fs = require("fs")
+const pageTemplate = require("./develop/pageTemplate")
+
 
 const projectQuestions = () => {
     return inquirer.prompt([
@@ -20,20 +21,9 @@ const projectQuestions = () => {
             name: "email",
             message: "What is your email? address",
             validate: userEmail => {
-                if(userEmail){return true}
-                else{
-                    console.log("Please enter your email address")
-                }
-            }
-        },
-        {
-            type: "input",
-            name: "repoName",
-            message: "Please enter the name of your repository:",
-            validate: userRepo => {
-                if (userRepo) { return true }
+                if (userEmail) { return true }
                 else {
-                    console.log("Please enter the name of your repository:")
+                    console.log("Please enter your email address")
                 }
             }
         },
@@ -89,7 +79,7 @@ const projectQuestions = () => {
             type: "list",
             name: "license",
             message: "Please select which license you would like for your project:",
-            choices: ["None", "MIT License", "Apache License 2.0"]
+            choices: ["None", "MIT", "Apache_2.0", "Artistic_2.0", "Boost_Software", "Academic_Free_v3.0", "Eclipse_Public_2.0"]
         },
         {
             type: "confirm",
@@ -134,4 +124,11 @@ const projectQuestions = () => {
 projectQuestions()
     .then(questionData => {
         console.log(questionData)
+        const template = pageTemplate(questionData)
+
+        fs.writeFile("README.md", template, err => {
+            if (err) throw err
+            console.log(err)
+        })
     })
+    
