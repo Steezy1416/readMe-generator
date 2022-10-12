@@ -2,7 +2,7 @@ const inquirer = require("inquirer")
 const fs = require("fs")
 const pageTemplate = require("./develop/pageTemplate")
 
-
+// Ask users a series of questions using inquirer
 const projectQuestions = () => {
     return inquirer.prompt([
         {
@@ -121,14 +121,17 @@ const projectQuestions = () => {
     ])
 }
 
+//calls the function to start asking users the questions
 projectQuestions()
+//after all the questions have been answered it will take those answers and call an exported function and use the answer data as a parameter
     .then(questionData => {
         console.log(questionData)
         const template = pageTemplate(questionData)
-
-        fs.writeFile("README.md", template, err => {
+        //after the data is returened a new file will be created in a new folder
+        fs.writeFile("./dist/README.md", template, err => {
             if (err) throw err
-            console.log(err)
         })
+        
+        console.log("You ReadMe has been generated!")
     })
     
