@@ -2,8 +2,11 @@ const inquirer = require("inquirer")
 const fs = require("fs")
 const pageTemplate = require("./develop/pageTemplate")
 
+console.log("Welcome to the ReadMe Generator!")
+
 // Ask users a series of questions using inquirer
 const projectQuestions = () => {
+
     return inquirer.prompt([
         {
             type: "input",
