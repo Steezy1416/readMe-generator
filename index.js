@@ -2,7 +2,7 @@ const inquirer = require("inquirer")
 const pageTemplate = require("./develop/pageTemplate")
 const fs = require("fs")
 
-const userInfo = () => {
+const projectQuestions = () => {
     return inquirer.prompt([
         {
             type: "input",
@@ -17,6 +17,17 @@ const userInfo = () => {
         },
         {
             type: "input",
+            name: "email",
+            message: "What is your email? address",
+            validate: userEmail => {
+                if(userEmail){return true}
+                else{
+                    console.log("Please enter your email address")
+                }
+            }
+        },
+        {
+            type: "input",
             name: "repoName",
             message: "Please enter the name of your repository:",
             validate: userRepo => {
@@ -25,12 +36,7 @@ const userInfo = () => {
                     console.log("Please enter the name of your repository:")
                 }
             }
-        }
-    ])
-}
-
-const projectInfo = () => {
-    return inquirer.prompt([
+        },
         {
             type: "input",
             name: "projectTitle",
@@ -99,32 +105,33 @@ const projectInfo = () => {
         },
         {
             type: "confirm",
-            name: "contactConfirm",
-            message: "Would you like to include a contact section?",
+            name: "testConfirm",
+            message: "Would you like to include a test section?",
             default: true
         },
         {
             type: "input",
-            name: "contact",
-            message: "Please enter a description on how to contact you:",
-            when: ({ contactConfirm }) => contactConfirm
+            name: "test",
+            message: "Please enter a description of your tests for your project:",
+            when: ({ testConfirm }) => testConfirm
+        },
+        {
+            type: "confirm",
+            name: "questionConfirm",
+            message: "Would you like to include a questions section?",
+            default: true
+        },
+        {
+            type: "list",
+            name: "question",
+            message: "How would you like to be contacted? ",
+            choices: ["Email", "GitHub Profile", "Both"],
+            when: ({ questionConfirm }) => questionConfirm
         }
-
     ])
 }
 
-userInfo()
-    .then(projectInfo)
-    .then(questiondata => {
-        console.log(questiondata)
+projectQuestions()
+    .then(questionData => {
+        console.log(questionData)
     })
-
-
-
-    // let data = (pageTemplate(projectdata))
-    //     fs.writeFile("readMe.md", data, err => {
-    //         if (err) {
-    //             console.log(err)
-    //             return
-    //         }
-    //     })
