@@ -1,4 +1,6 @@
 const inquirer = require("inquirer")
+const pageTemplate = require("./develop/pageTemplate")
+const fs = require("fs")
 
 const userInfo = () => {
     return inquirer.prompt([
@@ -7,8 +9,8 @@ const userInfo = () => {
             name: "username",
             message: "What is your GitHub username?",
             validate: userInput => {
-                if(userInput){return true}
-                else{
+                if (userInput) { return true }
+                else {
                     console.log("Please enter your GitHub username:")
                 }
             }
@@ -18,8 +20,8 @@ const userInfo = () => {
             name: "repoName",
             message: "Please enter the name of your repository:",
             validate: userRepo => {
-                if(userRepo){return true}
-                else{
+                if (userRepo) { return true }
+                else {
                     console.log("Please enter the name of your repository:")
                 }
             }
@@ -31,11 +33,11 @@ const projectInfo = () => {
     return inquirer.prompt([
         {
             type: "input",
-            name: "project-title",
+            name: "projectTitle",
             message: "What is the title of your project?",
             validate: userTitle => {
-                if(userTitle){return true}
-                else{
+                if (userTitle) { return true }
+                else {
                     console.log("Please enter your project title:")
                     return false
                 }
@@ -46,8 +48,8 @@ const projectInfo = () => {
             name: "description",
             message: "Please enter a description for your project:",
             validate: descripttionInput => {
-                if(descripttionInput){return true}
-                else{
+                if (descripttionInput) { return true }
+                else {
                     console.log("Please enter a description for your project:")
                     return false
                 }
@@ -63,7 +65,7 @@ const projectInfo = () => {
             type: "input",
             name: "installation",
             message: "Please enter a description on how to install your project:",
-            when: ({installationConfirm}) => installationConfirm
+            when: ({ installationConfirm }) => installationConfirm
         },
         {
             type: "confirm",
@@ -75,7 +77,7 @@ const projectInfo = () => {
             type: "input",
             name: "usage",
             message: "Please enter a description on how to use your project:",
-            when: ({usageConfirm}) => usageConfirm
+            when: ({ usageConfirm }) => usageConfirm
         },
         {
             type: "list",
@@ -93,7 +95,7 @@ const projectInfo = () => {
             type: "input",
             name: "contribute",
             message: "Please enter a description on how to contribute to your project:",
-            when: ({contributeConfirm}) => contributeConfirm
+            when: ({ contributeConfirm }) => contributeConfirm
         },
         {
             type: "confirm",
@@ -105,12 +107,24 @@ const projectInfo = () => {
             type: "input",
             name: "contact",
             message: "Please enter a description on how to contact you:",
-            when: ({contactConfirm}) => contactConfirm
-        },
+            when: ({ contactConfirm }) => contactConfirm
+        }
 
     ])
 }
 
 userInfo()
-.then(projectInfo)
+    .then(projectInfo)
+    .then(questiondata => {
+        console.log(questiondata)
+    })
 
+
+
+    // let data = (pageTemplate(projectdata))
+    //     fs.writeFile("readMe.md", data, err => {
+    //         if (err) {
+    //             console.log(err)
+    //             return
+    //         }
+    //     })
